@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Find π</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .pi-veil{
+      background:#314159;           /* ← PISTA (pi) */
+      position:fixed; inset:0;
+      opacity:0.015;
+      cursor: crosshair;
+    }
+    .pi-veil a{ position:absolute; inset:0; display:block; }
+  </style>
+</head>
+<body class="level2">
+  <div class="scanlines"></div>
+  <div class="prompt">Find me where &pi; hides.</div>
+  <div class="pi-veil">
+    <!-- Enlace oculto -->
+    <a href="level3.html" aria-label="next"></a>
+  </div>
+</body>
+</html>
