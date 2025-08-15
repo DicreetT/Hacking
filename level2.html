@@ -2,25 +2,81 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Find π</title>
+  <title>social experiment</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="style.css" />
   <style>
-    .pi-veil{
-      background:#314159;           /* ← PISTA (pi) */
-      position:fixed; inset:0;
-      opacity:0.015;
-      cursor: crosshair;
+    .typewrap{ min-height:100vh; display:grid; place-items:center; padding:2rem; }
+    .typebox{ max-width:820px; width:clamp(320px, 90vw, 820px); }
+    .type{ 
+      font-family: ui-monospace, Menlo, Consolas, "Courier New", monospace;
+      font-size: clamp(14px, 3.4vw, 20px); line-height:1.6;
+      white-space: pre-wrap; color:#cfd8dc;
     }
-    .pi-veil a{ position:absolute; inset:0; display:block; }
+    .cursor{ display:inline-block; width:.6ch; background:#cfd8dc; animation:blink 1s steps(1) infinite; }
+    @keyframes blink{50%{opacity:0}}
+
+    .gate{
+      margin-top:1.2rem; display:grid; gap:.6rem;
+      grid-template-columns: 1fr 1fr auto;
+      align-items:center;
+    }
+    input{
+      background:#0e1216; color:#e8ecf1; border:1px solid #ffffff33;
+      padding:.7rem .9rem; outline:none;
+    }
+    button.verify{
+      border:1px solid #ffffff44; background:#ffffff0f; color:#e8ecf1;
+      padding:.7rem 1.1rem; cursor:pointer;
+    }
+    .hint{ color:#90a4ae; font-size:.9em; opacity:.85; margin-top:.6rem; }
+    .err{ color:#ff8a80; margin-top:.6rem; display:none; }
   </style>
 </head>
-<body class="level2">
+<body>
   <div class="scanlines"></div>
-  <div class="prompt">Find me where &pi; hides.</div>
-  <div class="pi-veil">
-    <!-- Enlace oculto -->
-    <a href="level3.html" aria-label="next"></a>
+  <div class="typewrap">
+    <div class="typebox">
+      <div id="type" class="type"></div><span class="cursor" aria-hidden="true"></span>
+
+      <div class="gate" id="gate" style="display:none">
+        <input id="score" placeholder="_/10" autocomplete="off" />
+        <input id="subject" placeholder="F_ir_ archives" autocomplete="off" />
+        <button class="verify" id="go">enter</button>
+      </div>
+      <div class="hint" id="hint" style="display:none">
+        complete both fields to proceed
+      </div>
+      <div class="err" id="err">mm… not quite.</div>
+    </div>
   </div>
+
+  <script>
+    // máquina de escribir
+    const msg = "social experiment: _/10  subject. F_ir_ archives";
+    const el = document.getElementById('type');
+    const gate = document.getElementById('gate');
+    const hint = document.getElementById('hint');
+    let i = 0;
+    (function type(){
+      el.textContent = msg.slice(0, i++);
+      if(i <= msg.length) return setTimeout(type, 28);
+      gate.style.display = 'grid';
+      hint.style.display = 'block';
+    })();
+
+    // validación
+    const okScore = "9/10";
+    const okSubject = "fairy";
+    document.getElementById('go').addEventListener('click', () => {
+      const score = document.getElementById('score').value.trim();
+      const subj  = document.getElementById('subject').value.trim().toLowerCase();
+      if(score === okScore && subj === okSubject){
+        window.location.href = 'level3.html';
+      } else {
+        document.getElementById('err').style.display = 'block';
+      }
+    });
+  </script>
 </body>
 </html>
