@@ -53,30 +53,34 @@
 
   <script>
     // máquina de escribir
-    const msg = "social experiment: _/10  subject. F_ir_ archives";
-    const el = document.getElementById('type');
-    const gate = document.getElementById('gate');
-    const hint = document.getElementById('hint');
-    let i = 0;
-    (function type(){
-      el.textContent = msg.slice(0, i++);
-      if(i <= msg.length) return setTimeout(type, 28);
-      gate.style.display = 'grid';
-      hint.style.display = 'block';
-    })();
+  const msg = "social experiment: _/10  subject. F_ir_ archives";
+  const el = document.getElementById('type');
+  const gate = document.getElementById('gate');
+  const hint = document.getElementById('hint');
+  let i = 0;
+  (function type(){
+    el.textContent = msg.slice(0, i++);
+    if(i <= msg.length) return setTimeout(type, 28);
+    gate.style.display = 'grid';
+    hint.style.display = 'block';
+  })();
 
-    // validación
-    const okScore = "9/10";
-    const okSubject = "fairy";
-    document.getElementById('go').addEventListener('click', () => {
-      const score = document.getElementById('score').value.trim();
-      const subj  = document.getElementById('subject').value.trim().toLowerCase();
-      if(score === okScore && subj === okSubject){
-        window.location.href = 'level3.html';
-      } else {
-        document.getElementById('err').style.display = 'block';
-      }
-    });
-  </script>
+  // validación más flexible
+  function norm(s){ return s.trim().toLowerCase().replace(/\s+/g,''); }
+
+  document.getElementById('go').addEventListener('click', () => {
+    const score = norm(document.getElementById('score').value);
+    const subj  = norm(document.getElementById('subject').value);
+
+    const scoreOk = (score === '9/10' || score === '9/10'.replace('/','') || score === '9'); 
+    const subjOk  = (subj === 'fairy' || subj === 'fairyarchives');
+
+    if(scoreOk && subjOk){
+      window.location.href = 'level3.html';
+    } else {
+      document.getElementById('err').style.display = 'block';
+    }
+  });
+</script>
 </body>
 </html>
